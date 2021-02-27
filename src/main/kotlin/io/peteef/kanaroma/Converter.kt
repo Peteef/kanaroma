@@ -1,5 +1,5 @@
 package io.peteef.kanaroma
 
-object Converter {
+class Converter {
 
 }
