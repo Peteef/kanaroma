@@ -18,6 +18,6 @@ class Converter(private val capitalizeKatakana: Boolean) {
 
     fun toKatakana(romaji: String): String {
         val strategy = strategies.get(ROMAJI_TO_KATAKANA)
-        TODO("Implement method")
+        return strategy.convert(romaji)
     }
 }
