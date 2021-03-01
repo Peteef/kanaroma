@@ -11,6 +11,7 @@ object RomajiToHiraganaConverter: Converting {
 
         var i = 0
         while (i < text.length) {
+            //3-char substring
             val three = check(text, i, 3)
             if(three.isNotBlank()) {
                 sb.append(three)
@@ -18,6 +19,7 @@ object RomajiToHiraganaConverter: Converting {
                 continue
             }
 
+            //2-char substring
             val two = check(text, i, 2)
             if(two.isNotBlank()) {
                 sb.append(two)
@@ -25,6 +27,7 @@ object RomajiToHiraganaConverter: Converting {
                 continue
             }
 
+            //1-char substring
             val one = check(text, i, 1)
             if(one.isNotBlank()) {
                 sb.append(one)
@@ -32,10 +35,7 @@ object RomajiToHiraganaConverter: Converting {
                 continue
             }
 
-            if (text[i] == 'n') {
-                sb.append('ん')
-            }
-
+            //Double consonant
             sb.append('っ')
             i += 1
         }
