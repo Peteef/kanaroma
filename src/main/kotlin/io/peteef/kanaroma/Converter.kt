@@ -3,7 +3,7 @@ package io.peteef.kanaroma
 import io.peteef.kanaroma.conversion.ConversionType.*
 import io.peteef.kanaroma.strategy.ConversionStrategies
 
-class Converter(private val capitalizeKatakana: Boolean) {
+class Converter {
     private val strategies: ConversionStrategies = ConversionStrategies
 
     fun toRomaji(kana: String): String {
