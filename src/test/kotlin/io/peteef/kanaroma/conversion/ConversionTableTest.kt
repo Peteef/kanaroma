@@ -1,12 +1,19 @@
 package io.peteef.kanaroma.conversion
 
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkObject
 import io.peteef.kanaroma.conversion.ConversionType.KANA_TO_ROMAJI
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class ConversionTableTest {
+    @AfterEach
+    internal fun tearDown() {
+        clearAllMocks()
+    }
+
     @Test
     fun itShouldLoadFile() {
         mockResource()
