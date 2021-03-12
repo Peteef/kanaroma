@@ -4,7 +4,7 @@ import io.peteef.kanaroma.conversion.ConversionType
 import io.peteef.kanaroma.conversion.ConversionType.*
 import io.peteef.kanaroma.strategyNotFound
 
-object ConversionStrategies {
+internal object ConversionStrategies {
     private val tables: Map<ConversionType, Converting> = mapOf(
         KANA_TO_ROMAJI to KanaToRomajiConverter,
         ROMAJI_TO_HIRAGANA to RomajiToHiraganaConverter,

@@ -5,7 +5,7 @@ import io.peteef.kanaroma.loadTableFailed
 import io.peteef.kanaroma.resourcePath
 import java.io.FileNotFoundException
 
-class ConversionTable(private val conversionType: ConversionType) {
+internal class ConversionTable(private val conversionType: ConversionType) {
     private val table: Map<String, String> = load()
 
     fun get(key: String): String = table[key].orEmpty()

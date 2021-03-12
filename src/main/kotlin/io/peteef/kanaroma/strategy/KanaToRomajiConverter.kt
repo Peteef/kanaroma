@@ -3,7 +3,7 @@ package io.peteef.kanaroma.strategy
 import io.peteef.kanaroma.conversion.ConversionTable
 import io.peteef.kanaroma.conversion.ConversionType.KANA_TO_ROMAJI
 
-object KanaToRomajiConverter : Converting {
+internal object KanaToRomajiConverter : Converting {
     private val EXCEPTIONAL_CONSONANTS = mapOf(
         'c' to 't'
     )
