@@ -8,7 +8,7 @@ class Converter(private val capitalizeKatakana: Boolean) {
 
     fun toRomaji(kana: String): String {
         val strategy = strategies.get(KANA_TO_ROMAJI)
-        TODO("Implement method")
+        return strategy.convert(kana)
     }
 
     fun toHiragana(romaji: String): String {
