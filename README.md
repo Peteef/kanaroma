@@ -14,14 +14,14 @@ Kanaroma provides the `Converter` class with a set of methods:
 ## How to get it? (not available yet!)
 
 ### Maven
-```
+```gradle
 dependencies {
   implementation 'io.peteef:kanaroma:{version}'
 }
 ```
 
 ### Gradle
-```
+```xml
 <dependency>
   <groupId>io.peteef</groupId>
   <artifactId>kanaroma</artifactId>
