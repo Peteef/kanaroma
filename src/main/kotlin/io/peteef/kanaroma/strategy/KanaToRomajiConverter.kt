@@ -41,7 +41,7 @@ internal object KanaToRomajiConverter : Converting {
 
             //1-char substring
             val one = check(text, i, 1)
-            if (one.isNotBlank()) {
+            if (one.isNotEmpty()) {
                 sb.append(one)
                 i += 1
                 continue

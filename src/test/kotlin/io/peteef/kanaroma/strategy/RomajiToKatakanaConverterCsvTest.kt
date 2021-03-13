@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
 
-internal class RomajiToKatakanaConverterTest {
+internal class RomajiToKatakanaConverterCsvTest {
     private val converter: RomajiToKatakanaConverter = RomajiToKatakanaConverter
 
     @ParameterizedTest
