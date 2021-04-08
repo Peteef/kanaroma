@@ -1,6 +1,7 @@
 package io.peteef.kanaroma.benchmark
 
 import io.peteef.kanaroma.Converter
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.io.BufferedReader
@@ -8,15 +9,17 @@ import java.io.FileReader
 import kotlin.system.measureTimeMillis
 
 internal class BenchmarkTest {
+    companion object {
+        private const val CHAR_THRESHOLD = 0.05
+    }
+
     private val converter: Converter = Converter()
 
     @Nested
     inner class KanaToRomaji {
         @Test
         fun singleCharacters() {
-            val characters = loadCharacters("/benchmark/kana_romaji_characters.dat")
-            val average = benchmark(characters, converter::toRomaji)
-            println("Average for ${characters.size} characters: $average ms")
+            testCharacters("/benchmark/kana_romaji_characters.dat", converter::toRomaji)
         }
     }
 
@@ -24,9 +27,7 @@ internal class BenchmarkTest {
     inner class RomajiToHiragana {
         @Test
         fun singleCharacters() {
-            val characters = loadCharacters("/benchmark/romaji_hiragana_characters.dat")
-            val average = benchmark(characters, converter::toHiragana)
-            println("Average for ${characters.size} characters: $average ms")
+            testCharacters("/benchmark/romaji_hiragana_characters.dat", converter::toHiragana)
         }
     }
 
@@ -34,19 +35,24 @@ internal class BenchmarkTest {
     inner class RomajiToKatakana {
         @Test
         fun singleCharacters() {
-            val characters = loadCharacters("/benchmark/romaji_katakana_characters.dat")
-            val average = benchmark(characters, converter::toKatakana)
-            println("Average for ${characters.size} characters: $average ms")
+            testCharacters("/benchmark/romaji_katakana_characters.dat", converter::toKatakana)
         }
     }
 
-    internal fun loadCharacters(filepath: String): List<String> {
+    internal fun testCharacters(path: String, operation: (String) -> String) {
+        val characters = loadCharacters(path)
+        val average = benchmark(characters, operation)
+        println("Average for ${characters.size} characters: $average ms")
+        assertTrue(average < CHAR_THRESHOLD)
+    }
+
+    private fun loadCharacters(filepath: String): List<String> {
         return BufferedReader(
             FileReader(BenchmarkTest::class.java.getResource(filepath)?.path ?: filepath)
         ).readLines()
     }
 
-    internal fun benchmark(input: List<String>, operation: (String) -> String): Double {
+    private fun benchmark(input: List<String>, operation: (String) -> String): Double {
         return input.shuffled().map { measure { operation(it) } }.average()
     }
 
