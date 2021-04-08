@@ -9,7 +9,8 @@ internal class ConversionTable(private val conversionType: ConversionType) {
     companion object {
         private val SPECIAL_CHARACTERS = mapOf(
             "\\s" to " ",
-            "\\c" to ", "
+            "\\c" to ", ",
+            "," to "\\c"
         )
     }
 
@@ -21,7 +22,7 @@ internal class ConversionTable(private val conversionType: ConversionType) {
         try {
             val lines = csvLines(resourcePath("/tables/${conversionType.resourcePath}"))
             return lines.map { it.split(',') }
-                .associate { it[0] to checkForSpecialCharacters(it[1]) }
+                .associate { checkForSpecialCharacters(it[0]) to checkForSpecialCharacters(it[1]) }
         } catch (e: FileNotFoundException) {
             throw IllegalArgumentException().loadTableFailed(conversionType)
         }

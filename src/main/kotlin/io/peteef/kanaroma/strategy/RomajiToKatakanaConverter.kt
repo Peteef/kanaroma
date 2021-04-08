@@ -1,5 +1,6 @@
 package io.peteef.kanaroma.strategy
 
+import io.peteef.kanaroma.Quotation
 import io.peteef.kanaroma.conversion.ConversionTable
 import io.peteef.kanaroma.conversion.ConversionType.ROMAJI_TO_KATAKANA
 
@@ -8,10 +9,24 @@ internal object RomajiToKatakanaConverter: Converting {
 
     override fun convert(text: String): String {
         val sb = StringBuilder()
+        val quotation = Quotation()
         val preProcessed = replaceMultipleVowels(text)
 
         var i = 0
         while (i < preProcessed.length) {
+            //Omit spaces
+            if(isSpace(text, i)) {
+                i += 1
+                continue
+            }
+
+            //"Intelligent" quotations
+            if(isQuotation(text, i)) {
+                sb.append(quotation.get())
+                i += 1
+                continue
+            }
+
             //3-char substring
             val three = check(preProcessed, i, 3)
             if(three.isNotBlank()) {
@@ -51,6 +66,10 @@ internal object RomajiToKatakanaConverter: Converting {
             .replace(Regex("i+i"), "i-")
             .replace(Regex("u+u"), "u-")
     }
+
+    private fun isSpace(text: String, i: Int): Boolean = text[i].isWhitespace()
+
+    private fun isQuotation(text: String, i: Int): Boolean = text[i] == '"'
 
     private fun check(text: String, i: Int, n: Int): String {
         if(i + n > text.length) {
