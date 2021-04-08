@@ -21,8 +21,7 @@ internal class ConversionTable(private val conversionType: ConversionType) {
         try {
             val lines = csvLines(resourcePath("/tables/${conversionType.resourcePath}"))
             return lines.map { it.split(',') }
-                .map { it[0] to checkForSpecialCharacters(it[1]) }
-                .toMap()
+                .associate { it[0] to checkForSpecialCharacters(it[1]) }
         } catch (e: FileNotFoundException) {
             throw IllegalArgumentException().loadTableFailed(conversionType)
         }

@@ -11,6 +11,7 @@ import kotlin.system.measureTimeMillis
 internal class BenchmarkTest {
     companion object {
         private const val CHAR_THRESHOLD = 0.05
+        private const val WORD_THRESHOLD = 0.2
     }
 
     private val converter: Converter = Converter()
@@ -21,6 +22,11 @@ internal class BenchmarkTest {
         fun singleCharacters() {
             testCharacters("/benchmark/kana_romaji_characters.dat", converter::toRomaji)
         }
+
+        @Test
+        fun singleWords() {
+            testWords("/benchmark/kana_romaji_words.dat", converter::toRomaji)
+        }
     }
 
     @Nested
@@ -28,6 +34,11 @@ internal class BenchmarkTest {
         @Test
         fun singleCharacters() {
             testCharacters("/benchmark/romaji_hiragana_characters.dat", converter::toHiragana)
+        }
+
+        @Test
+        fun singleWords() {
+            testWords("/benchmark/romaji_hiragana_words.dat", converter::toHiragana)
         }
     }
 
@@ -37,16 +48,28 @@ internal class BenchmarkTest {
         fun singleCharacters() {
             testCharacters("/benchmark/romaji_katakana_characters.dat", converter::toKatakana)
         }
+
+        @Test
+        fun singleWords() {
+            testWords("/benchmark/romaji_katakana_words.dat", converter::toKatakana)
+        }
     }
 
     internal fun testCharacters(path: String, operation: (String) -> String) {
-        val characters = loadCharacters(path)
+        val characters = loadInput(path)
         val average = benchmark(characters, operation)
         println("Average for ${characters.size} characters: $average ms")
         assertTrue(average < CHAR_THRESHOLD)
     }
 
-    private fun loadCharacters(filepath: String): List<String> {
+    internal fun testWords(path: String, operation: (String) -> String) {
+        val words = loadInput(path)
+        val average = benchmark(words, operation)
+        println("Average for ${words.size} words: $average ms")
+        assertTrue(average < WORD_THRESHOLD)
+    }
+
+    private fun loadInput(filepath: String): List<String> {
         return BufferedReader(
             FileReader(BenchmarkTest::class.java.getResource(filepath)?.path ?: filepath)
         ).readLines()
