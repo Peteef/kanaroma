@@ -2,7 +2,7 @@ package io.peteef.kanaroma.strategy
 
 import io.peteef.kanaroma.conversion.ConversionType
 import io.peteef.kanaroma.conversion.ConversionType.*
-import io.peteef.kanaroma.strategyNotFound
+import io.peteef.kanaroma.strategyNotFoundFor
 
 internal object ConversionStrategies {
     private val tables: Map<ConversionType, Converting> = mapOf(
@@ -12,6 +12,6 @@ internal object ConversionStrategies {
     )
 
     fun get(type: ConversionType): Converting {
-        return tables[type] ?: throw IllegalArgumentException().strategyNotFound(type)
+        return tables[type] ?: throw IllegalArgumentException() strategyNotFoundFor type
     }
 }

@@ -1,8 +1,8 @@
 package io.peteef.kanaroma.conversion
 
 import io.peteef.kanaroma.csvLines
-import io.peteef.kanaroma.loadTableFailed
-import io.peteef.kanaroma.resourcePath
+import io.peteef.kanaroma.loadTableFailedFor
+import io.peteef.kanaroma.resourceStream
 import java.io.FileNotFoundException
 
 internal class ConversionTable(private val conversionType: ConversionType) {
@@ -20,11 +20,11 @@ internal class ConversionTable(private val conversionType: ConversionType) {
 
     private fun load(): Map<String, String> {
         try {
-            val lines = csvLines(resourcePath("/tables/${conversionType.resourcePath}"))
+            val lines = csvLines(resourceStream("/tables/${conversionType.resourcePath}"))
             return lines.map { it.split(',') }
                 .associate { checkForSpecialCharacters(it[0]) to checkForSpecialCharacters(it[1]) }
         } catch (e: FileNotFoundException) {
-            throw IllegalArgumentException().loadTableFailed(conversionType)
+            throw IllegalArgumentException() loadTableFailedFor conversionType
         }
     }
 

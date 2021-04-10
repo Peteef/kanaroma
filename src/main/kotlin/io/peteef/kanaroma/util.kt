@@ -1,11 +1,13 @@
 package io.peteef.kanaroma
 
-import java.io.BufferedReader
-import java.io.FileReader
+import java.io.File
+import java.io.InputStream
 
-internal fun resourcePath(relativePath: String): String = Converter::class.java.getResource(relativePath)?.path ?: relativePath
+@JvmSynthetic
+internal fun resourceStream(relativePath: String): InputStream = Converter::class.java.getResourceAsStream(relativePath) ?: File(relativePath).inputStream()
 
-internal fun csvLines(path: String): List<String> = BufferedReader(FileReader(path)).readLines()
+@JvmSynthetic
+internal fun csvLines(inputStream: InputStream): List<String> = inputStream.bufferedReader().readLines()
 
 internal class Quotation {
     private companion object {
